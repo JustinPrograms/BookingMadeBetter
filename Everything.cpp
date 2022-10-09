@@ -19,22 +19,25 @@ void User::welcome() {
     std::cin >> welcomeInput;
     switch (welcomeInput) {
         case 1:
-            login();
+            loginInfo();
         case 2:
             signup();
         case 3:
            dates();
+
     }
 
 }
 
 void User::signup() {
-    // Sign up use json file
-    std::ifstream f("D:\\Programing\\BookingMadeBetter\\data\\test.json");
-    json data = json::parse(f);
 
+    std::cout<<"______________________________\n";
+    std::cout<<"|                            |\n";
+    std::cout<<"|           Sign Up          |\n";
+    std::cout<<"|                            |\n";
+    std::cout<<"------------------------------\n";
 
-
+    // Getting signup information
     std::cout << "Please enter an username: ";
     std::cin >> username;
 
@@ -45,27 +48,59 @@ void User::signup() {
     std::cin >> password;
 
 
-    data["account"] = { {"Username", username}, {"Password", password}, {"Email", email}, {"Id", id} };
+    // Reading Json file
+    std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\test.json)");
+    json data = json::parse(o);
 
-    std::ofstream o("D:\\Programing\\BookingMadeBetter\\data\\test.json");
-    o << std::setw(4) << data << std::endl;
+    // Adding data
+    id = data.size();
+    data[id] = { {"username", username}, {"password", password}, {"email", email}, {"id", id} };
 
-    auto count_id = data.count("account");
-    std::cout << "Here is your count, " << count_id << std::endl;
+    // Writing to json file
+    std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\test.json");
+    w << std::setw(4) << data << std::endl;
+    w.flush();
 
-    /* For help
-     * When we make an account we need that in a array
-     * then we can count the array etc for ids etc
-     * array for multiple accounts
-     * https://github.com/nlohmann/json/issues/470
-     */
 
-    welcome();
+    login(username, password);
 
 
 }
 
-void User::login() {
+void User::loginInfo() {
+
+    std::cout<<"______________________________\n";
+    std::cout<<"|                            |\n";
+    std::cout<<"|           Login            |\n";
+    std::cout<<"|                            |\n";
+    std::cout<<"------------------------------\n";
+
+    std::cout << "\nUsername: ";
+    std::cin >> username;
+
+    std::cout << "\nPassword: ";
+    std::cin >> password;
+
+    login(username, password);
+
+}
+
+void User::login(std::string username, std::string password) {
+
+    // Reading Json file
+    std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\test.json)");
+    json data = json::parse(o);
+
+    for (int i = 0; i < data.size(); i++) {
+        if (data[i]["username"] == username && data[i]["password"] == password) {
+            id = static_cast<int>(data[i]["id"]);
+
+            std::cout << "Login successful";
+
+        }
+    }
+    std::cout << "Incorrect login information";
+
 
 }
 
@@ -156,3 +191,11 @@ void User::dates() {
 
 
 }
+
+void User::portal() {
+
+
+
+}
+
+

@@ -8,10 +8,11 @@
 class User {
 
 private:
+    // Init private variables
     std::string username;
     std::string email;
     std::string password;
-    int id = 0;
+    int id;
 
 public:
     // Init variablies
@@ -22,7 +23,9 @@ public:
     // Init functions
     void welcome();
     void signup();
-    void login();
+    void loginInfo();
+    void login(std::string username, std::string password);
+    void portal();
     void dates();
 
 

@@ -7,6 +7,7 @@ int main() {
 
     User user;
     user.welcome();
+    while(1);
 
 
     return 0;
