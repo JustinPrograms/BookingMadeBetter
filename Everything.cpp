@@ -16,14 +16,12 @@ void User::welcome() {
 
 
 
-    std::cin >> welcomeInput;
-    switch (welcomeInput) {
+    std::cin >> in;
+    switch (in) {
         case 1:
             loginInfo();
         case 2:
             signup();
-        case 3:
-           dates();
 
     }
 
@@ -47,6 +45,19 @@ void User::signup() {
     std::cout << "Please enter a password: ";
     std::cin >> password;
 
+    std::cout << "Are you a teacher? (Y/N)" ;
+    std::cin >> in;
+
+    if (in == 'y' || in == 'Y') {
+        isStudent = false;
+        isTeacher = true;
+    } else {
+        isStudent = true;
+        isTeacher = false;
+    }
+
+
+
 
     // Reading Json file
     std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\test.json)");
@@ -54,7 +65,7 @@ void User::signup() {
 
     // Adding data
     id = data.size();
-    data[id] = { {"username", username}, {"password", password}, {"email", email}, {"id", id} };
+    data[id] = { {"username", username}, {"password", password}, {"email", email}, {"id", id}, {"isStudent", isStudent}, {"isTeacher", isTeacher} };
 
     // Writing to json file
     std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\test.json");
@@ -95,12 +106,33 @@ void User::login(std::string username, std::string password) {
         if (data[i]["username"] == username && data[i]["password"] == password) {
             id = static_cast<int>(data[i]["id"]);
 
-            std::cout << "Login successful";
+            isStudent = data[i]["isStudent"];
+            isTeacher = data[i]["isTeacher"];
+
+            isLoggedIn = true;
+            std::cout << "Login successful" << std::endl;
+            portal();
 
         }
     }
-    std::cout << "Incorrect login information";
+    if (!isLoggedIn) {
+        std::cout << "Incorrect login information. Please try again" << std::endl;
+        loginInfo();
+    }
 
+
+}
+
+void User::portal() {
+
+    std::cout<<"______________________________\n";
+    std::cout<<"|        Library Portal      |\n";
+    std::cout<<"|                            |\n";
+    std::cout<<"|        1. Study Room       |\n";
+    std::cout<<"|        2. Chromebooks      |\n";
+    std::cout<<"------------------------------\n";
+
+    std::cin  >> in;
 
 }
 
@@ -192,10 +224,6 @@ void User::dates() {
 
 }
 
-void User::portal() {
 
-
-
-}
 
 

@@ -12,11 +12,14 @@ private:
     std::string username;
     std::string email;
     std::string password;
+    bool isStudent;
+    bool isTeacher;
+    bool isLoggedIn = false;
     int id;
 
 public:
     // Init variablies
-    int welcomeInput;
+    int in;
 
 
 

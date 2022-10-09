@@ -1,3 +1,18 @@
 [
-
+    {
+        "email": "123",
+        "id": 0,
+        "isStudent": true,
+        "isTeacher": false,
+        "password": "123",
+        "username": "123"
+    },
+    {
+        "email": "asdasd",
+        "id": 1,
+        "isStudent": true,
+        "isTeacher": false,
+        "password": "asdsad",
+        "username": "dsadasd"
+    }
 ]
