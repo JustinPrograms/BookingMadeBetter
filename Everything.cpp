@@ -6,6 +6,8 @@ using json = nlohmann::json;
 
 
 void User::welcome() {
+
+    // Welcome prompt
     std::cout<<"______________________________\n";
     std::cout<<"|           WELCOME          |\n";
     std::cout<<"|           TO THE           |\n";
@@ -13,22 +15,22 @@ void User::welcome() {
     std::cout<<"| SYSTEM 1. login 2. signup  |\n";
     std::cout<<"------------------------------\n";
 
-
-
-
+    // Getting input and selecting function
     std::cin >> in;
     switch (in) {
         case 1:
             loginInfo();
         case 2:
             signup();
-
+        default:
+            welcome();
     }
 
 }
 
 void User::signup() {
 
+    // Sign up prompt
     std::cout<<"______________________________\n";
     std::cout<<"|                            |\n";
     std::cout<<"|           Sign Up          |\n";
@@ -60,7 +62,7 @@ void User::signup() {
 
 
     // Reading Json file
-    std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\test.json)");
+    std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\accounts.json)");
     json data = json::parse(o);
 
     // Adding data
@@ -68,7 +70,7 @@ void User::signup() {
     data[id] = { {"username", username}, {"password", password}, {"email", email}, {"id", id}, {"isStudent", isStudent}, {"isTeacher", isTeacher} };
 
     // Writing to json file
-    std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\test.json");
+    std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\accounts.json");
     w << std::setw(4) << data << std::endl;
     w.flush();
 
@@ -80,18 +82,21 @@ void User::signup() {
 
 void User::loginInfo() {
 
+    // Login prompt
     std::cout<<"______________________________\n";
     std::cout<<"|                            |\n";
     std::cout<<"|           Login            |\n";
     std::cout<<"|                            |\n";
     std::cout<<"------------------------------\n";
 
+    // Getting login information
     std::cout << "\nUsername: ";
     std::cin >> username;
 
     std::cout << "\nPassword: ";
     std::cin >> password;
 
+    // Calling login function
     login(username, password);
 
 }
@@ -99,22 +104,27 @@ void User::loginInfo() {
 void User::login(std::string username, std::string password) {
 
     // Reading Json file
-    std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\test.json)");
+    std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\accounts.json)");
     json data = json::parse(o);
 
+
+    // Checking if valid login information
     for (int i = 0; i < data.size(); i++) {
         if (data[i]["username"] == username && data[i]["password"] == password) {
-            id = static_cast<int>(data[i]["id"]);
 
+            // If valid gets all the information
+            id = static_cast<int>(data[i]["id"]);
             isStudent = data[i]["isStudent"];
             isTeacher = data[i]["isTeacher"];
-
             isLoggedIn = true;
+
+            // Calls portal function
             std::cout << "Login successful" << std::endl;
             portal();
 
         }
     }
+    // If login fails restart
     if (!isLoggedIn) {
         std::cout << "Incorrect login information. Please try again" << std::endl;
         loginInfo();
@@ -125,6 +135,7 @@ void User::login(std::string username, std::string password) {
 
 void User::portal() {
 
+    // Portal prompt
     std::cout<<"______________________________\n";
     std::cout<<"|        Library Portal      |\n";
     std::cout<<"|                            |\n";
@@ -133,6 +144,8 @@ void User::portal() {
     std::cout<<"------------------------------\n";
 
     std::cin  >> in;
+
+    // Switch statement
 
 }
 
@@ -223,6 +236,8 @@ void User::dates() {
 
 
 }
+
+
 
 
 

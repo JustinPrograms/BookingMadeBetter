@@ -17,6 +17,8 @@ private:
     bool isLoggedIn = false;
     int id;
 
+    // Init private functions
+
 public:
     // Init variablies
     int in;
