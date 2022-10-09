@@ -50,16 +50,6 @@ void User::signup() {
     std::cout << "Please enter a password: ";
     std::cin >> password;
 
-    std::cout << "Are you a teacher? (Y/N)" ;
-    std::cin >> in;
-
-    if (in == 'y' || in == 'Y') {
-        isStudent = false;
-        isTeacher = true;
-    } else {
-        isStudent = true;
-        isTeacher = false;
-    }
 
 
 
@@ -70,7 +60,7 @@ void User::signup() {
 
     // Adding data
     id = data.size();
-    data[id] = { {"username", username}, {"password", password}, {"email", email}, {"id", id}, {"isStudent", isStudent}, {"isTeacher", isTeacher} };
+    data[id] = { {"username", username}, {"password", password}, {"email", email}, {"id", id}, {"isStudent", isStudent} };
 
     // Writing to json file
     std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\accounts.json");
@@ -104,7 +94,7 @@ void User::loginInfo() {
 
 }
 
-void User::login(std::string username, std::string password) {
+void User::login(std::string tempUsername, std::string tempPassword) {
 
     // Reading Json file
     std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\accounts.json)");
@@ -113,12 +103,12 @@ void User::login(std::string username, std::string password) {
 
     // Checking if valid login information
     for (int i = 0; i < data.size(); i++) {
-        if (data[i]["username"] == username && data[i]["password"] == password) {
+        if (data[i]["username"] == tempUsername && data[i]["password"] == tempPassword) {
 
             // If valid gets all the information
             id = static_cast<int>(data[i]["id"]);
-            isStudent = data[i]["isStudent"];
-            isTeacher = data[i]["isTeacher"];
+            username =  data[i]["username"];
+            password = data[i]["password"];
             isLoggedIn = true;
 
             // Calls portal function

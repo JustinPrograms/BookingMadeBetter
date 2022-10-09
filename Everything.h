@@ -29,7 +29,7 @@ public:
     void welcome();
     void signup();
     void loginInfo();
-    void login(std::string username, std::string password);
+    void login(std::string tempUsername, std::string tempPassword);
     void portal();
     void dates();
 
