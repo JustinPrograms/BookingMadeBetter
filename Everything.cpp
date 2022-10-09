@@ -29,6 +29,9 @@ void User::welcome() {
 }
 
 void User::signup() {
+    // maybe clears the console (doesnt work on clion, try on replit)
+    //std::cout << "\x1B[2J\x1B[H";
+
 
     // Sign up prompt
     std::cout<<"______________________________\n";
