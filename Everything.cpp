@@ -323,40 +323,37 @@ void User::studyRooms() {
         //this if statement checks what the room type is
         if (i["roomType"] == room) {
 
-            if (timeStart > static_cast<double>(data[i]["timeStart"]) &&
-                timeStart < static_cast<double>(data[i]["timeEnd"]) ||
-                timeEnd > static_cast<double>(data[i]["timeStart"]) &&
-                timeEnd < static_cast<double>(data[i]["timeEnd"])) {
-                std::cout << "Error 1" << std::endl;
-                std::cout << "1: "
-                          << (timeStart > static_cast<double>(i["timeStart"]))
-                          << ":"
-                          << (timeStart < static_cast<double>(i["timeEnd"]))
-                          << std::endl;
-                std::cout << "2: "
-                          << (timeEnd > static_cast<double>(i["timeStart"]))
-                          << ":" << (timeEnd < static_cast<double>(i["timeEnd"]))
-                          << std::endl;
+            //Big brain stuff --> we check to see if the time entered by the user does not interfere with other bookings
+            //The first check is to see if the start time is greater than all of the start times
+            if (timeStart > static_cast<double>(i["timeStart"]) &&
 
+                //the next check is to see if the start time is less then the end time of all the bookings
+                //those two conditions ensure that the booking attempt does not overlap with previous bookings
+                timeStart < static_cast<double>(i["timeEnd"]) ||
+                // this condition is to check if the end time is greater than any of the start times of existing bookings
+                timeEnd > static_cast<double>(i["timeStart"]) &&
+                //this condition is to see if the end time is less than any of the end times of existing bookings
+                //these two checks ensure that the end time does not interfere with any existing bookings
+                timeEnd < static_cast<double>(i["timeEnd"])) {
+                //if either of those two conditions are true, the booking will not work and will output an error message because the booking time interferes with an existing booking
                 isValid = false;
-                break;
-            }
 
-            if (timeStart < 8 || timeEnd > 15) {
-                std::cout << "Error 2" << std::endl;
-                isValid = false;
-                break;
+                // this if statement checks to see if the booking time is before or after working hours
+                if (timeStart < 8 || timeEnd > 15) {
+                    std::cout << "Error 2" << std::endl;
+                    isValid = false;
+                    break;
+                }
             }
         }
-    }
-    // If it is a valid time and date it saves it to the json
-    if (isValid) {
-        in = data.size();
-        data[in]["roomType"] = room;
-        data[in]["timeStart"] = timeStart;
-        data[in]["timeEnd"] = timeEnd;
-        data[in]["max"] = max;
-        data[in]["bookedBy"] = id;
+        // If it is a valid time and date it saves it to the json
+        if (isValid) {
+            in = data.size();
+            data[in]["roomType"] = room;
+            data[in]["timeStart"] = timeStart;
+            data[in]["timeEnd"] = timeEnd;
+            data[in]["max"] = max;
+            data[in]["bookedBy"] = id;
 
             // Writing to json file
             std::ofstream w(R"(D:\Programing\BookingMadeBetter\data\rooms.json)");
