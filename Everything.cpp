@@ -309,7 +309,7 @@ void User::studyRooms() {
     timeEnd = timeStart + max;
 
     // Checking if person already has one booking
-    for (auto & i : data) {
+    for (auto &i: data) {
         if (i["bookedBy"] == id) {
             std::cout << "You already have a booking." << std::endl;
             portal();
@@ -318,8 +318,9 @@ void User::studyRooms() {
 
     // Checking if already booked
     bool isValid = true;
-    for (auto & i : data) {
+    for (auto &i: data) {
 
+        //this if statement checks what the room type is
         if (i["roomType"] == room) {
 
             if (timeStart > static_cast<double>(data[i]["timeStart"]) &&
@@ -357,13 +358,14 @@ void User::studyRooms() {
         data[in]["max"] = max;
         data[in]["bookedBy"] = id;
 
-        // Writing to json file
-        std::ofstream w(R"(D:\Programing\BookingMadeBetter\data\rooms.json)");
-        w << std::setw(4) << data << std::endl;
-        w.flush();
-        portal();
-    }
+            // Writing to json file
+            std::ofstream w(R"(D:\Programing\BookingMadeBetter\data\rooms.json)");
+            w << std::setw(4) << data << std::endl;
+            w.flush();
+            portal();
+        }
 
-    std::cout << "Invalid Time." << std::endl;
-    studyRooms();
+        std::cout << "Invalid Time." << std::endl;
+        studyRooms();
+    }
 }
