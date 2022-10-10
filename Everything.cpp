@@ -7,12 +7,14 @@ using json = nlohmann::json;
 void User::welcome() {
 
     // Welcome prompt
-    std::cout << "______________________________\n";
-    std::cout << "|           WELCOME          |\n";
-    std::cout << "|           TO THE           |\n";
-    std::cout << "|           BOOKING          |\n";
-    std::cout << "| SYSTEM 1. login 2. signup  |\n";
-    std::cout << "------------------------------\n";
+    std::cout << "________________________________\n";
+    std::cout << "|            WELCOME           |\n";
+    std::cout << "|            TO THE            |\n";
+    std::cout << "|            BOOKING           |\n";
+    std::cout << "|            SYSTEM            |\n";
+    std::cout << "| Mon-Fri (08:00am to 03:00pm) |\n";
+    std::cout << "|      1. login 2. signup      |\n";
+    std::cout << "--------------------------------\n";
 
     // Getting input and selecting function
     std::cin >> in;
@@ -32,7 +34,7 @@ void User::welcome() {
 }
 
 void User::signup() {
-    // maybe clears the console (doesnt work on clion, try on replit)
+    //  clears the console (doesnt work on clion, try on replit)
     // std::cout << "\x1B[2J\x1B[H";
 
     // Sign up prompt
@@ -69,6 +71,7 @@ void User::signup() {
     w << std::setw(4) << data << std::endl;
     w.flush();
 
+    // Auto logging
     login(username, password);
 }
 
@@ -157,8 +160,9 @@ void User::chromebookCheckout() {
     std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\chromebooks.json)");
     json data = json::parse(o);
 
-    for (int i = 0; i < data.size(); i++) {
-        if (data[i]["whoHas"] == id) {
+    // Checks if chromebook is already checked out by person
+    for (auto & i : data) {
+        if (i["whoHas"] == id) {
             std::cout << "You already have a chromebook checked out. " << std::endl;
             portal();
         }
@@ -166,9 +170,9 @@ void User::chromebookCheckout() {
 
     // Checking which chromebooks are available
     std::cout << "Here are the chromebooks that are available:  " << std::endl;
-    for (int i = 0; i < data.size(); i++) {
-        if (data[i]["isAvailable"] == true) {
-            std::cout << "Chromebook #" << data[i]["serial"] << " is available."
+    for (auto & i : data) {
+        if (i["isAvailable"] == true) {
+            std::cout << "Chromebook #" << i["serial"] << " is available."
                       << std::endl;
         }
     }
@@ -209,8 +213,8 @@ void User::chromebookCheckin() {
     json data = json::parse(o);
 
     has = false;
-    for (int i = 0; i < data.size(); i++) {
-        if (data[i]["whoHas"] == id)
+    for (auto & i : data) {
+        if (i["whoHas"] == id)
             has = true;
     }
     if (!has) {
@@ -235,7 +239,7 @@ void User::chromebookCheckin() {
     std::cout << "Thank you for returning your chromebook." << std::endl;
 
     // Writing to json file
-    std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\chromebooks.json");
+    std::ofstream w(R"(D:\Programing\BookingMadeBetter\data\chromebooks.json)");
     w << std::setw(4) << data << std::endl;
     w.flush();
 
@@ -257,6 +261,7 @@ void User::studyRooms() {
 
     std::cin >> in;
 
+    // Getting input
     switch (in) {
         case 1:
             room = "Green Screen Room";
@@ -277,6 +282,7 @@ void User::studyRooms() {
     std::cout << "Enter the time you want the room (08:00am to 03:00pm): ";
     std::cin >> time;
 
+    // Converts time to 24 hour clock
     if (time[5] == 'a') {
         if (time[0] == '0') {
             timeStart = static_cast<int>(time[1]) - 48;
@@ -303,8 +309,8 @@ void User::studyRooms() {
     timeEnd = timeStart + max;
 
     // Checking if person already has one booking
-    for (int i = 0; i < data.size(); i++) {
-        if (data[i]["bookedBy"] == id) {
+    for (auto & i : data) {
+        if (i["bookedBy"] == id) {
             std::cout << "You already have a booking." << std::endl;
             portal();
         }
@@ -312,9 +318,9 @@ void User::studyRooms() {
 
     // Checking if already booked
     bool isValid = true;
-    for (int i = 0; i < data.size(); i++) {
+    for (auto & i : data) {
 
-        if (data[i]["roomType"] == room) {
+        if (i["roomType"] == room) {
 
             if (timeStart > static_cast<double>(data[i]["timeStart"]) &&
                 timeStart < static_cast<double>(data[i]["timeEnd"]) ||
@@ -322,13 +328,13 @@ void User::studyRooms() {
                 timeEnd < static_cast<double>(data[i]["timeEnd"])) {
                 std::cout << "Error 1" << std::endl;
                 std::cout << "1: "
-                          << (timeStart > static_cast<double>(data[i]["timeStart"]))
+                          << (timeStart > static_cast<double>(i["timeStart"]))
                           << ":"
-                          << (timeStart < static_cast<double>(data[i]["timeEnd"]))
+                          << (timeStart < static_cast<double>(i["timeEnd"]))
                           << std::endl;
                 std::cout << "2: "
-                          << (timeEnd > static_cast<double>(data[i]["timeStart"]))
-                          << ":" << (timeEnd < static_cast<double>(data[i]["timeEnd"]))
+                          << (timeEnd > static_cast<double>(i["timeStart"]))
+                          << ":" << (timeEnd < static_cast<double>(i["timeEnd"]))
                           << std::endl;
 
                 isValid = false;
@@ -342,6 +348,7 @@ void User::studyRooms() {
             }
         }
     }
+    // If it is a valid time and date it saves it to the json
     if (isValid) {
         in = data.size();
         data[in]["roomType"] = room;
@@ -351,7 +358,7 @@ void User::studyRooms() {
         data[in]["bookedBy"] = id;
 
         // Writing to json file
-        std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\rooms.json");
+        std::ofstream w(R"(D:\Programing\BookingMadeBetter\data\rooms.json)");
         w << std::setw(4) << data << std::endl;
         w.flush();
         portal();

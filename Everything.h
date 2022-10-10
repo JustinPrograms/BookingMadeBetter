@@ -21,7 +21,6 @@ private:
     int count;
     bool has;
 
-    // Init private functions
 
 public:
     // Init variablies
