@@ -1,44 +1,46 @@
-#include <fstream>
 #include "Everything.h"
 #include "libs\\json.h"
+#include <fstream>
 
 using json = nlohmann::json;
-
 
 void User::welcome() {
 
     // Welcome prompt
-    std::cout<<"______________________________\n";
-    std::cout<<"|           WELCOME          |\n";
-    std::cout<<"|           TO THE           |\n";
-    std::cout<<"|           BOOKING          |\n";
-    std::cout<<"| SYSTEM 1. login 2. signup  |\n";
-    std::cout<<"------------------------------\n";
+    std::cout << "______________________________\n";
+    std::cout << "|           WELCOME          |\n";
+    std::cout << "|           TO THE           |\n";
+    std::cout << "|           BOOKING          |\n";
+    std::cout << "| SYSTEM 1. login 2. signup  |\n";
+    std::cout << "------------------------------\n";
 
     // Getting input and selecting function
     std::cin >> in;
     switch (in) {
         case 1:
             loginInfo();
+            break;
         case 2:
             signup();
+            break;
+        case 3:
+            studyRooms();
+            break;
         default:
             welcome();
     }
-
 }
 
 void User::signup() {
     // maybe clears the console (doesnt work on clion, try on replit)
-    //std::cout << "\x1B[2J\x1B[H";
-
+    // std::cout << "\x1B[2J\x1B[H";
 
     // Sign up prompt
-    std::cout<<"______________________________\n";
-    std::cout<<"|                            |\n";
-    std::cout<<"|           Sign Up          |\n";
-    std::cout<<"|                            |\n";
-    std::cout<<"------------------------------\n";
+    std::cout << "______________________________\n";
+    std::cout << "|                            |\n";
+    std::cout << "|           Sign Up          |\n";
+    std::cout << "|                            |\n";
+    std::cout << "------------------------------\n";
 
     // Getting signup information
     std::cout << "Please enter an username: ";
@@ -50,37 +52,34 @@ void User::signup() {
     std::cout << "Please enter a password: ";
     std::cin >> password;
 
-
-
-
-
     // Reading Json file
     std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\accounts.json)");
     json data = json::parse(o);
 
     // Adding data
-    id = data.size();
-    data[id] = { {"username", username}, {"password", password}, {"email", email}, {"id", id}, {"isStudent", isStudent} };
+    id = data.size() + 1000;
+    data[id] = {{"username", username},
+                {"password", password},
+                {"email", email},
+                {"id", id},
+                {"isStudent", isStudent}};
 
     // Writing to json file
     std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\accounts.json");
     w << std::setw(4) << data << std::endl;
     w.flush();
 
-
     login(username, password);
-
-
 }
 
 void User::loginInfo() {
 
     // Login prompt
-    std::cout<<"______________________________\n";
-    std::cout<<"|                            |\n";
-    std::cout<<"|           Login            |\n";
-    std::cout<<"|                            |\n";
-    std::cout<<"------------------------------\n";
+    std::cout << "______________________________\n";
+    std::cout << "|                            |\n";
+    std::cout << "|           Login            |\n";
+    std::cout << "|                            |\n";
+    std::cout << "------------------------------\n";
 
     // Getting login information
     std::cout << "\nUsername: ";
@@ -91,7 +90,6 @@ void User::loginInfo() {
 
     // Calling login function
     login(username, password);
-
 }
 
 void User::login(std::string tempUsername, std::string tempPassword) {
@@ -100,21 +98,20 @@ void User::login(std::string tempUsername, std::string tempPassword) {
     std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\accounts.json)");
     json data = json::parse(o);
 
-
     // Checking if valid login information
     for (int i = 0; i < data.size(); i++) {
-        if (data[i]["username"] == tempUsername && data[i]["password"] == tempPassword) {
+        if (data[i]["username"] == tempUsername &&
+            data[i]["password"] == tempPassword) {
 
             // If valid gets all the information
             id = static_cast<int>(data[i]["id"]);
-            username =  data[i]["username"];
+            username = data[i]["username"];
             password = data[i]["password"];
             isLoggedIn = true;
 
             // Calls portal function
             std::cout << "Login successful" << std::endl;
             portal();
-
         }
     }
     // If login fails restart
@@ -122,116 +119,244 @@ void User::login(std::string tempUsername, std::string tempPassword) {
         std::cout << "Incorrect login information. Please try again" << std::endl;
         loginInfo();
     }
-
-
 }
 
 void User::portal() {
 
     // Portal prompt
-    std::cout<<"______________________________\n";
-    std::cout<<"|        Library Portal      |\n";
-    std::cout<<"|                            |\n";
-    std::cout<<"|        1. Study Room       |\n";
-    std::cout<<"|        2. Chromebooks      |\n";
-    std::cout<<"------------------------------\n";
+    std::cout << "______________________________\n";
+    std::cout << "|        Library Portal      |\n";
+    std::cout << "|                            |\n";
+    std::cout << "|        1. Study Room       |\n";
+    std::cout << "|   2. Chromebooks Checkout  |\n";
+    std::cout << "|    3. Chromebooks Checkin  |\n";
+    std::cout << "|                            |\n";
+    std::cout << "------------------------------\n";
 
-    std::cin  >> in;
+    std::cin >> in;
 
     // Switch statement
-
+    switch (in) {
+        case 1:
+            studyRooms();
+            break;
+        case 2:
+            chromebookCheckout();
+            break;
+        case 3:
+            chromebookCheckin();
+            break;
+        default:
+            welcome();
+    }
 }
 
-void User::dates() {
-    std::vector<std::string> timeSlotsMonday;
-    std::vector<std::string> timeSlotsTuesday;
-    std::vector<std::string> timeSlotsWednesday;
-    std::vector<std::string> timeSlotsThursday;
-    std::vector<std::string> timeSlotsFriday;
-    std::string a[] = { "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", "1:00pm", "2:00pm", "3:00pm"};
-    int decisionDate;
+void User::chromebookCheckout() {
 
-    // assign first 2 values
-    timeSlotsMonday.assign(a, a + 8);
-    timeSlotsTuesday.assign(a, a + 8);
-    timeSlotsWednesday.assign(a, a + 8);
-    timeSlotsThursday.assign(a, a + 8);
-    timeSlotsFriday.assign(a, a + 8);
+    // Reading Json file
+    std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\chromebooks.json)");
+    json data = json::parse(o);
 
-    std:: cout<< "Hello! Would you like to book a room? Enter the respected number code: " << std::endl;
-    std:: cout<< "Enter 0 to skip room bookings" << std::endl;
-    std:: cout<< "Enter 1 for time slots on Monday: ";
-
-
-    for(int i=0; i != timeSlotsMonday.size(); i++) {
-        std::cout << timeSlotsMonday.at(i) << ' ';
-    }
-
-
-    //std::cout << timeSlotsMonday.at(-1)
-
-    std::cout << "\nEnter 2 for time slots on Tuesday: ";
-    for(int i=0; i != timeSlotsTuesday.size(); i++) {
-        std::cout << timeSlotsTuesday.at(i) << ' ';
-    }
-
-    std:: cout<< "\nEnter 3 for time slots on Wednesday: ";
-    for(int i=0; i != timeSlotsWednesday.size(); i++) {
-        std::cout << timeSlotsWednesday.at(i) << ' ';
-    }
-
-    std:: cout<< "\nEnter 4 for time slots on Thursday:";
-    for(int i=0; i != timeSlotsThursday.size(); i++) {
-        std::cout << timeSlotsThursday.at(i) << ' ';
-    }
-
-    std:: cout<< "\nEnter 5 for time slots on Friday: ";
-    for(int i=0; i != timeSlotsFriday.size(); i++) {
-        std::cout << timeSlotsFriday.at(i) << ' ';
-    }
-
-    std:: cin>> decisionDate;
-
-    if(decisionDate == 0){
-        std::cout << " ";
-
-    }else if(decisionDate == 1) {
-        std::cout << "\nFor what time would you like to book? ";
-        for (int i = 0; i != timeSlotsMonday.size(); i++) {
-            std::cout << timeSlotsMonday.at(i) << ' ';
-        }
-    }else if(decisionDate == 2){
-        std::cout << "\nFor what time would you like to book? ";
-        for(int i=0; i != timeSlotsTuesday.size(); i++) {
-            std::cout << timeSlotsTuesday.at(i) << ' ';
+    for (int i = 0; i < data.size(); i++) {
+        if (data[i]["whoHas"] == id) {
+            std::cout << "You already have a chromebook checked out. " << std::endl;
+            portal();
         }
     }
-    else if(decisionDate == 3){
-        std::cout << "\nFor what time would you like to book? ";
-        for(int i=0; i != timeSlotsWednesday.size(); i++) {
-            std::cout << timeSlotsWednesday.at(i) << ' ';
+
+    // Checking which chromebooks are available
+    std::cout << "Here are the chromebooks that are available:  " << std::endl;
+    for (int i = 0; i < data.size(); i++) {
+        if (data[i]["isAvailable"] == true) {
+            std::cout << "Chromebook #" << data[i]["serial"] << " is available."
+                      << std::endl;
         }
-    }
-    else if(decisionDate == 4){
-        std::cout << "\nFor what time would you like to book? ";
-        for(int i=0; i != timeSlotsThursday.size(); i++) {
-            std::cout << timeSlotsThursday.at(i) << ' ';
-        }
-    }
-    else if(decisionDate == 5){
-        std::cout << "\nFor what time would you like to book? ";
-        for(int i=0; i != timeSlotsFriday.size(); i++) {
-            std::cout << timeSlotsFriday.at(i) << ' ';
-        }
-    }else{
-        std::cout << "Please enter a valid number";
     }
 
+    // Asking user to select a chromebook to checkout
+    std::cout << "Please select a chromebook to checkout: ";
+    std::cin >> in;
 
+    // Validating the request
+    if (!data[in - 1]["isAvailable"]) {
+        std::cout << "That chrome is not available. Please select a different "
+                     "chromebook.";
+        chromebookCheckout();
+    }
+
+    std::cout << "Please provide a reason for checkout.";
+    std::cin >> inStr;
+
+    // Adding to data
+    data[in - 1]["isAvailable"] = false;
+    data[in - 1]["whoHas"] = id;
+    data[in - 1]["reason"] = inStr;
+
+    std::cout << "Successfully checked out chromebook #" << data[in - 1]["serial"]
+              << std::endl;
+
+    // Writing to json file
+    std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\chromebooks.json");
+    w << std::setw(4) << data << std::endl;
+    w.flush();
+
+    portal();
 }
 
+void User::chromebookCheckin() {
+    // Reading Json file
+    std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\chromebooks.json)");
+    json data = json::parse(o);
 
+    has = false;
+    for (int i = 0; i < data.size(); i++) {
+        if (data[i]["whoHas"] == id)
+            has = true;
+    }
+    if (!has) {
+        std::cout << "You do not have any chromebooks checked out." << std::endl;
+        portal();
+    }
 
+    std::cout << "Please enter the serial number of the chromebook you would "
+                 "like to return: ";
+    std::cin >> in;
 
+    if (data[in - 1]["whoHas"] != id) {
+        std::cout << "You do not have that chromebook checked out." << std::endl;
+        chromebookCheckin();
+    }
 
+    // Adding to data
+    data[in - 1]["isAvailable"] = true;
+    data[in - 1]["whoHas"] = nullptr;
+    data[in - 1]["reason"] = nullptr;
 
+    std::cout << "Thank you for returning your chromebook." << std::endl;
+
+    // Writing to json file
+    std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\chromebooks.json");
+    w << std::setw(4) << data << std::endl;
+    w.flush();
+
+    portal();
+}
+
+void User::studyRooms() {
+
+    // Reading Json file
+    std::ifstream o(R"(D:\Programing\BookingMadeBetter\data\rooms.json)");
+    json data = json::parse(o);
+
+    std::cout << "Available Rooms: \n";
+    std::cout << "1. Green Screen Rooms: \n";
+    std::cout << "2. Adaptive Lab: \n";
+    std::cout << "3. Study Room: \n";
+    std::cout << "4. Meeting Room: \n";
+    std::cout << "Please enter the room location: \n";
+
+    std::cin >> in;
+
+    switch (in) {
+        case 1:
+            room = "Green Screen Room";
+            break;
+        case 2:
+            room = "Adaptive Lab Room";
+            break;
+        case 3:
+            room = "Study Room";
+            break;
+        case 4:
+            room = "Meeting room";
+            break;
+        default:
+            studyRooms();
+    }
+
+    std::cout << "Enter the time you want the room (08:00am to 03:00pm): ";
+    std::cin >> time;
+
+    if (time[5] == 'a') {
+        if (time[0] == '0') {
+            timeStart = static_cast<int>(time[1]) - 48;
+        } else {
+            timeStart = +static_cast<int>(time[1]) - 48 + 10;
+        }
+    }
+
+    if (time[5] == 'p') {
+        if (time[0] == '0') {
+            timeStart = static_cast<int>(time[1]) - 48 + 12;
+        } else {
+            timeStart = +static_cast<int>(time[1]) - 48 + 22;
+        }
+    }
+
+    std::cout << "Enter how long you want the room for (Max 3 hours): ";
+    std::cin >> max;
+
+    if (max > 3 || max < 0) {
+        std::cout << "Invalid time please start over";
+        studyRooms();
+    }
+    timeEnd = timeStart + max;
+
+    // Checking if person already has one booking
+    for (int i = 0; i < data.size(); i++) {
+        if (data[i]["bookedBy"] == id) {
+            std::cout << "You already have a booking." << std::endl;
+            portal();
+        }
+    }
+
+    // Checking if already booked
+    bool isValid = true;
+    for (int i = 0; i < data.size(); i++) {
+
+        if (data[i]["roomType"] == room) {
+
+            if (timeStart > static_cast<double>(data[i]["timeStart"]) &&
+                timeStart < static_cast<double>(data[i]["timeEnd"]) ||
+                timeEnd > static_cast<double>(data[i]["timeStart"]) &&
+                timeEnd < static_cast<double>(data[i]["timeEnd"])) {
+                std::cout << "Error 1" << std::endl;
+                std::cout << "1: "
+                          << (timeStart > static_cast<double>(data[i]["timeStart"]))
+                          << ":"
+                          << (timeStart < static_cast<double>(data[i]["timeEnd"]))
+                          << std::endl;
+                std::cout << "2: "
+                          << (timeEnd > static_cast<double>(data[i]["timeStart"]))
+                          << ":" << (timeEnd < static_cast<double>(data[i]["timeEnd"]))
+                          << std::endl;
+
+                isValid = false;
+                break;
+            }
+
+            if (timeStart < 8 || timeEnd > 15) {
+                std::cout << "Error 2" << std::endl;
+                isValid = false;
+                break;
+            }
+        }
+    }
+    if (isValid) {
+        in = data.size();
+        data[in]["roomType"] = room;
+        data[in]["timeStart"] = timeStart;
+        data[in]["timeEnd"] = timeEnd;
+        data[in]["max"] = max;
+        data[in]["bookedBy"] = id;
+
+        // Writing to json file
+        std::ofstream w("D:\\Programing\\BookingMadeBetter\\data\\rooms.json");
+        w << std::setw(4) << data << std::endl;
+        w.flush();
+        portal();
+    }
+
+    std::cout << "Invalid Time." << std::endl;
+    studyRooms();
+}

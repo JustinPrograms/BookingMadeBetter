@@ -1,18 +1,23 @@
 [
     {
-        "email": "123",
-        "id": 0,
+        "email": "justin@gmail.com",
+        "id": 1000,
         "isStudent": true,
-        "isTeacher": false,
-        "password": "123",
-        "username": "123"
+        "password": "justin123",
+        "username": "Justin"
     },
     {
-        "email": "asdasd",
-        "id": 1,
+        "email": "jay@gmail.com",
+        "id": 1001,
         "isStudent": true,
-        "isTeacher": false,
-        "password": "asdsad",
-        "username": "dsadasd"
+        "password": "jay123",
+        "username": "Jay"
+    },
+    {
+        "email": "",
+        "id": 1002,
+        "isStudent": false,
+        "password": "justin123",
+        "username": "Justin"
     }
 ]

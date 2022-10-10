@@ -1,0 +1,32 @@
+[
+    {
+        "isAvailable": true,
+        "reason": null,
+        "serial": 1,
+        "whoHas": null
+    },
+    {
+        "isAvailable": true,
+        "reason": null,
+        "serial": 2,
+        "whoHas": null
+    },
+    {
+        "isAvailable": true,
+        "reason": null,
+        "serial": 3,
+        "whoHas": null
+    },
+    {
+        "isAvailable": true,
+        "reason": null,
+        "serial": 4,
+        "whoHas": null
+    },
+    {
+        "isAvailable": true,
+        "reason": null,
+        "serial": 5,
+        "whoHas": null
+    }
+]

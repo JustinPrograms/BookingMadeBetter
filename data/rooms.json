@@ -1,0 +1,30 @@
+[
+    {
+        "bookedBy": 1000,
+        "max": 3.0,
+        "roomType": "Green Screen Room",
+        "timeEnd": 12.0,
+        "timeStart": 9.0
+    },
+    {
+        "bookedBy": 1000,
+        "max": 2.0,
+        "roomType": "Green Screen Room",
+        "timeEnd": 15.0,
+        "timeStart": 13.0
+    },
+    {
+        "bookedBy": 1000,
+        "max": 1.0,
+        "roomType": "Green Screen Room",
+        "timeEnd": 9.0,
+        "timeStart": 8.0
+    },
+    {
+        "bookedBy": 1001,
+        "max": 3.0,
+        "roomType": "Adaptive Lab Room",
+        "timeEnd": 12.0,
+        "timeStart": 9.0
+    }
+]
