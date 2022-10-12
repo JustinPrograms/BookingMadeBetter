@@ -24,9 +24,9 @@
         "whoHas": null
     },
     {
-        "isAvailable": true,
-        "reason": null,
+        "isAvailable": false,
+        "reason": "testing",
         "serial": 5,
-        "whoHas": null
+        "whoHas": 1003
     }
 ]

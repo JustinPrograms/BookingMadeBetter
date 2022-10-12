@@ -19,5 +19,12 @@
         "isStudent": false,
         "password": "justin123",
         "username": "Justin"
+    },
+    {
+        "email": "horchie@gmail.com",
+        "id": 1003,
+        "isStudent": true,
+        "password": "123",
+        "username": "Horchie"
     }
 ]

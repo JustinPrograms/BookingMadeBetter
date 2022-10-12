@@ -60,7 +60,7 @@ void User::signup() {
 
     // Adding data
     id = data.size() + 1000;
-    data[id] = {{"username", username},
+    data[data.size()] = {{"username", username},
                 {"password", password},
                 {"email", email},
                 {"id", id},
@@ -125,6 +125,8 @@ void User::login(std::string tempUsername, std::string tempPassword) {
 }
 
 void User::portal() {
+    // idk why i need to do this but i do
+    int in;
 
     // Portal prompt
     std::cout << "______________________________\n";

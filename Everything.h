@@ -14,8 +14,7 @@ private:
     std::string username;
     std::string email;
     std::string password;
-    bool isStudent;
-    bool isTeacher;
+    bool isStudent = true;
     bool isLoggedIn = false;
     int id;
     int count;

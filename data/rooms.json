@@ -26,5 +26,12 @@
         "roomType": "Adaptive Lab Room",
         "timeEnd": 12.0,
         "timeStart": 9.0
+    },
+    {
+        "bookedBy": 1003,
+        "max": 3.0,
+        "roomType": "Adaptive Lab Room",
+        "timeEnd": 3.0,
+        "timeStart": 6.9514196656275e-310
     }
 ]
