@@ -21,11 +21,18 @@
         "timeStart": 8.0
     },
     {
-        "bookedBy": 1001,
-        "max": 3.0,
-        "roomType": "Adaptive Lab Room",
-        "timeEnd": 12.0,
-        "timeStart": 9.0
+        "bookedBy": 1004,
+        "max": 2.0,
+        "roomType": "Meeting room",
+        "timeEnd": 10.0,
+        "timeStart": 8.0
+    },
+    {
+        "bookedBy": 1006,
+        "max": 2.0,
+        "roomType": "Study Room",
+        "timeEnd": 26.0,
+        "timeStart": 24.0
     },
     {
         "bookedBy": 1003,

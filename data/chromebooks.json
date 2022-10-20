@@ -18,10 +18,10 @@
         "whoHas": null
     },
     {
-        "isAvailable": true,
-        "reason": null,
+        "isAvailable": false,
+        "reason": "test",
         "serial": 4,
-        "whoHas": null
+        "whoHas": 1001
     },
     {
         "isAvailable": false,
